@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASHA Computer Education Institute, Khajuraho</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* CORE PROPERTIES & FUTURE MATRIX ANIMATIONS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --bg-main: #060a12;
+            --bg-card: #0d1527;
+            --accent-orange: #ff5722;
+            --accent-glow: #ff784e;
+            --text-pure: #ffffff;
+            --text-dim: #94a3b8;
+            --border-glow: #1e293b;
+            --alert-red: #ef4444;
+            --cyber-blue: #00f0ff;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-pure);
+            overflow-x: hidden;
+            background-image: radial-gradient(rgba(255, 87, 34, 0.04) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* KEYFRAMES FOR ADVANCED LIVE EFFECTS */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(255, 87, 34, 0.2); border-color: #1e293b; }
+            50% { box-shadow: 0 0 20px rgba(255, 87, 34, 0.6); border-color: var(--accent-orange); }
+            100% { box-shadow: 0 0 5px rgba(255, 87, 34, 0.2); border-color: #1e293b; }
+        }
+
+        @keyframes urgent-blink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.98); background: #b91c1c; }
+        }
+
+        @keyframes text-shimmer {
+            0% { text-shadow: 0 0 4px rgba(255,255,255,0.1); }
+            50% { text-shadow: 0 0 15px var(--accent-glow); color: #fff; }
+            100% { text-shadow: 0 0 4px rgba(255,255,255,0.1); }
+        }
+
+        @keyframes creator-shine {
+            0%, 100% { color: var(--text-dim); text-shadow: 0 0 2px transparent; }
+            50% { color: var(--accent-orange); text-shadow: 0 0 8px rgba(255,87,34,0.4); }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        /* MARQUEE HEADER STRIP */
+        .top-bar {
+            background: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            border-bottom: 1px solid var(--border-glow);
+            font-size: 14px;
+        }
+
+        .marquee-container {
+            width: 65%;
+            overflow: hidden;
+            white-space: nowrap;
+            background: rgba(255,87,34,0.05);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            color: var(--accent-orange);
+            font-weight: bold;
+            animation: scroll-text 16s linear infinite;
+        }
+
+        @keyframes scroll-text {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .top-contact span {
+            margin-left: 20px;
+            color: var(--text-dim);
+        }
+
+        /* NAVIGATION BAR */
+        .navbar {
+            background-color: rgba(13, 21, 39, 0.96);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--accent-orange);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-circle {
+            background: linear-gradient(135deg, var(--accent-orange), #ff784e);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 900;
+            box-shadow: 0 0 15px rgba(255,87,34,0.4);
+        }
+
+        .logo-area h1 {
+            font-size: 22px;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-area h1 span { color: var(--accent-orange); }
+        .logo-area p { font-size: 12px; color: var(--text-dim); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            color: var(--text-pure);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-orange);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-orange);
+        }
+
+        .btn-admission {
+            background: linear-gradient(90deg, var(--accent-orange), #ff784e);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,87,34,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-admission:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,87,34,0.5);
+        }
+
+        /* HERO LAYOUT */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.25fr 0.75fr;
+            gap: 50px;
+            padding: 80px 5%;
+            align-items: center;
+        }
+
+        .badge-gov {
+            background: rgba(255, 87, 34, 0.12);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            color: var(--accent-orange);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 12px;
+        }
+
+        .hero h2 {
+            font-size: 34px;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+
+        .hero h2 span {
+            color: var(--accent-orange);
+            animation: text-shimmer 3s infinite;
+        }
+
+        .hero-desc {
+            color: var(--text-dim);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .hero-ticks {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .hero-ticks span {
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-ticks i { color: #10b981; font-size: 18px; }
+
+        .hero-actions { display: flex; gap: 20px; }
+
+        .btn-primary {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,87,34,0.3);
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover { background: #e0481d; }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid var(--border-glow);
+            padding: 16px 32px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover { background: rgba(255,255,255,0.05); border-color: var(--text-dim); }
+
+        /* HERO CARD / IMAGE FLYER WIDGET */
+        .hero-flyer-box {
+            background: var(--bg-card);
+            border: 1px dashed var(--accent-orange);
+            border-radius: 12px;
+            padding: 24px;
+            animation: pulse-glow 4s infinite ease-in-out;
+        }
+
+        .flyer-placeholder {
+            background: #060a12;
+            height: 240px;
+            margin: 18px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-dim);
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+        }
+
+        .flyer-placeholder i { font-size: 44px; color: var(--accent-orange); margin-bottom: 12px; }
+
+        .flyer-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .status-open { color: #10b981; }
+
+        /* NEW NEW: WORLDMONITOR.AI INSPIRED INTERACTIVE 3D EARTH SECTION */
+        .worldmonitor-section {
+            padding: 60px 5%;
+            background: #02050b;
+            border-top: 1px solid var(--border-glow);
+            border-bottom: 1px solid var(--border-glow);
+            position: relative;
+        }
+
+        .monitor-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .canvas-container {
+            width: 100%;
+            height: 500px;
+            background: #000;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.05);
+        }
+
+        /* Sci-fi Overlay Hud */
+        .hud-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(6, 10, 18, 0.85);
+            border: 1px solid var(--cyber-blue);
+            padding: 15px;
+            border-radius: 6px;
+            pointer-events: none;
+            font-size: 12px;
+            color: #fff;
+            letter-spacing: 0.5px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .hud-scanline {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,240,255,0) 95%, rgba(0,240,255,0.15) 95%, rgba(0,240,255,0.15));
+            background-size: 100% 20px;
+            pointer-events: none;
+        }
+
+        .hud-target {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px; height: 40px;
+            border: 1px dashed var(--accent-orange);
+            border-radius: 50%;
+            pointer-events: none;
+            display: none; /* turns on via zoom engine */
+        }
+        .hud-target::before {
+            content: ''; position: absolute; top: 50%; left: -10px; right: -10px; height: 1px; background: var(--accent-orange);
+        }
+        .hud-target::after {
+            content: ''; position: absolute; left: 50%; top: -10px; bottom: -10px; width: 1px; background: var(--accent-orange);
+        }
+
+        .control-panel {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-glow);
+        }
+
+        .btn-cyber-trigger {
+            background: linear-gradient(90deg, #00f0ff, #0072ff);
+            color: #000;
+            font-weight: 800;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            width: 100%;
+            font-size: 15px;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+        }
+
+        .btn-cyber-trigger:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 25px rgba(0, 240, 255, 0.6);
+        }
+
+        .hud-stats-box {
+            background: #050810;
+            border-left: 3px solid var(--cyber-blue);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+        }
+
+        /* AUTOMATIC REAL-TIME TIMER GRID */
+        .countdown-section {
+            background: linear-gradient(135deg, #0d1527 0%, #05080f 100%);
+            padding: 35px;
+            border-radius: 12px;
+            margin: 40px 5%;
+            text-align: center;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .timer-grid {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .time-box {
+            background: #000;
+            padding: 18px 28px;
+            border-radius: 8px;
+            min-width: 100px;
+            border-bottom: 3px solid var(--accent-orange);
+            box-shadow: inset 0 0 10px rgba(255,87,34,0.1);
+        }
+
+        .time-box span {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-pure);
+            display: block;
+        }
+
+        /* CPCT GRID ALERT PANELS */
+        .cpct-info { padding: 60px 5%; }
+        .cpct-header { text-align: center; margin-bottom: 50px; }
+
+        .tag-alert {
+            background: var(--accent-orange);
+            color: white;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 900;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            display: inline-block;
+            animation: urgent-blink 2s infinite ease-in-out;
+        }
+
+        .cpct-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--border-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover { transform: translateY(-5px); }
+
+        .date-row {
+            margin: 18px 0;
+            font-size: 15px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(255,255,255,0.05);
+            padding-bottom: 8px;
+        }
+
+        .note-box {
+            background: rgba(255, 87, 34, 0.08);
+            border-left: 4px solid var(--accent-orange);
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .guideline-placeholder {
+            background: #04070d;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            color: var(--text-dim);
+            border-radius: 6px;
+            border: 1px dashed rgba(255,87,34,0.3);
+        }
+
+        .guideline-placeholder i { font-size: 42px; color: var(--accent-orange); }
+
+        .doc-list { list-style: none; }
+        .btn-center-visit {
+            background: transparent; border: 1px solid var(--accent-orange);
+            color: #fff; width: 100%; padding: 12px; margin-top: 20px;
+            border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .btn-center-visit:hover { background: var(--accent-orange); }
+
+        /* BATCH STRIP WITH PULSING BUTTON */
+        .batch-banner {
+            background: linear-gradient(90deg, #ff5722, #e0481d);
+            color: white;
+            margin: 40px 5%;
+            padding: 30px 45px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 25px rgba(255,87,34,0.3);
+        }
+
+        .badge-new { background: #000; padding: 5px 10px; font-size: 12px; font-weight: bold; border-radius: 4px; }
+
+        .btn-book {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-weight: 800;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: all 0.3s;
+        }
+
+        .btn-book:hover { background: #111; transform: scale(1.04); }
+
+        /* COURSES MODULE WITH SYLLABUS ACCORDIONS */
+        .courses-section { padding: 60px 5%; }
+        .section-tag { color: var(--accent-orange); font-weight: bold; font-size: 14px; letter-spacing: 1px; display: block; text-align: center; margin-bottom: 5px; }
+        .section-title { text-align: center; font-size: 34px; font-weight: 800; margin-bottom: 10px; }
+        .section-subtitle { text-align: center; color: var(--text-dim); margin-bottom: 40px; }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .course-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            padding: 35px;
+            border-radius: 10px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .course-card:hover {
+            border-color: var(--accent-orange);
+            box-shadow: 0 10px 25px rgba(255,87,34,0.15);
+        }
+
+        .duration-tag {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255,87,34,0.1);
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 4px;
+            color: var(--accent-orange);
+        }
+
+        /* Syllabus Accordion styling */
+        .syllabus-accordion {
+            margin-top: 20px;
+            background: #060a12;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #1e293b;
+        }
+
+        .accordion-header {
+            background: #0d1527;
+            padding: 12px 15px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--accent-orange);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            font-size: 13px;
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
+        .course-footer {
+            margin-top: 30px;
+            border-top: 1px solid var(--border-glow);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* LIVE TYPING INTERACTIVE CONTROLS */
+        .typing-section { padding: 40px 5%; }
+        
+        .typing-container {
+            background: #080d17;
+            border: 1px solid var(--border-glow);
+            border-radius: 14px;
+            padding: 45px;
+            max-width: 950px;
+            margin: 0 auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .typing-stats-row {
+            display: flex;
+            justify-content: space-between;
+            background: var(--bg-card);
+            padding: 18px 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+            align-items: center;
+            border: 1px solid #1e293b;
+        }
+
+        .stat-item span { font-weight: 800; color: var(--accent-orange); font-size: 22px; }
+        .btn-reset { background: var(--accent-orange); border:none; padding:8px 15px; border-radius:5px; color:#fff; font-weight:bold; cursor:pointer;}
+
+        .typing-target { background: #000; padding: 15px; border-radius:8px; margin-bottom: 15px; border:1px solid #1e293b; }
+
+        .typing-textarea {
+            width: 100%; height: 130px; background: #000; color: white;
+            border: 1px solid var(--border-glow); padding: 18px; border-radius: 8px;
+            font-size: 17px; resize: none; transition: border-color 0.3s;
+        }
+
+        .typing-textarea:focus { border-color: var(--accent-orange); outline: none; }
+
+        /* ADVANCED STUDENTS VERIFIED METRICS */
+        .metrics-section { padding: 60px 5%; background: #04070d; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; margin-top: 30px; }
+        .metric-card { background: var(--bg-card); padding: 25px; border-radius: 8px; border: 1px solid var(--border-glow); text-align: center; }
+        .metric-card h4 { font-size: 18px; margin-bottom: 10px; }
+        .metric-score { font-size: 28px; font-weight: 800; color: #10b981; margin: 10px 0; }
+        .metric-badge { background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 10px; font-size: 11px; border-radius: 4px; display: inline-block; }
+
+        /* FACULTY DIRECTORS INSIGHTS */
+        .faculty-section { padding: 60px 5%; }
+        .faculty-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 35px; }
+        
+        .faculty-card { 
+            background: var(--bg-card); padding: 35px; border-radius: 10px; 
+            border: 1px solid var(--border-glow); position: relative;
+        }
+
+        .faculty-card:hover { border-color: rgba(255,87,34,0.4); }
+        .role { color: var(--accent-orange); font-size: 13px; font-weight: bold; margin: 5px 0 15px 0; }
+        .quote { font-style: italic; color: var(--text-dim); margin-bottom: 15px; }
+        .qualifications span { background: #05080f; padding: 5px 12px; font-size: 12px; border-radius: 4px; border: 1px solid #1e293b; }
+
+        /* TECHNICAL FAQ SECTION */
+        .faq-section { padding: 60px 5%; background: #060a12; }
+        .faq-container { max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .faq-item { background: var(--bg-card); border: 1px solid var(--border-glow); border-radius: 8px; overflow: hidden; }
+        .faq-question { padding: 20px; font-weight: bold; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #0e172c; }
+        .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; color: var(--text-dim); font-size: 14px; line-height: 1.6; }
+
+        /* COUNSELING GALLERY WIDGETS */
+        .gallery-section { padding: 60px 5%; }
+        .gallery-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+        .gallery-placeholder {
+            background: var(--bg-card); border: 1px dashed var(--border-glow);
+            padding: 40px; text-align: center; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; gap: 20px; border-radius: 10px;
+        }
+        .gallery-placeholder i { font-size: 48px; color: var(--accent-orange); }
+
+        .eligibility-box { background: var(--bg-card); padding: 35px; border-radius: 10px; border: 1px solid var(--border-glow); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 14px; margin-bottom: 8px; color: var(--text-dim); }
+        .form-group select, .form-group input { width: 100%; background: #000; color: #fff; border: 1px solid var(--border-glow); padding: 12px; border-radius: 6px; }
+        .btn-check-course { background: var(--accent-orange); color:#fff; border:none; padding:12px 20px; font-weight:bold; border-radius:6px; cursor:pointer; width:100%; }
+
+        /* CONTACT SYSTEM CLOSURE */
+        .contact-enquiry { padding: 60px 5%; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 40px; }
+        .contact-info-card { background: var(--bg-card); padding: 40px; border-radius: 10px; border: 1px solid var(--border-glow); }
+        .info-block { margin-bottom: 20px; font-size: 15px; }
+        .phone-highlight { color: var(--accent-orange); font-weight: bold; font-size: 18px; }
+        .btn-call-now { display: inline-block; background: #10b981; color:#fff; padding:12px 25px; text-decoration:none; font-weight:bold; border-radius:6px; margin-top: 15px; }
+
+        .enquiry-card { background: var(--bg-card); padding: 40px; border-radius: 10px; border: 1px solid var(--border-glow); }
+
+        .btn-submit { 
+            background: var(--accent-orange); color: white; border: none; width: 100%; 
+            padding: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255,87,34,0.3); transition: background 0.3s;
+        }
+        .btn-submit:hover { background: #e0481d; }
+
+        /* HIGHLY CLEAN ADVANCED CREATOR FOOTNOTE */
+        .creator-signature {
+            text-align: center;
+            padding: 20px 0 12px 0;
+            background: #03050a;
+            font-size: 12px;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(255,255,255,0.02);
+        }
+        .creator-signature span {
+            font-weight: 700;
+            animation: creator-shine 4s infinite ease-in-out;
+        }
+
+        footer { background: #03050a; padding: 60px 5% 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; }
+        .footer-bottom { text-align: center; margin-top: 30px; font-size: 13px; color: var(--text-dim); }
+
+        /* RESPONSIVE LAYOUT BREAKPOINTS */
+        @media (max-width: 950px) {
+            .hero, .gallery-container, .contact-enquiry, .monitor-grid { grid-template-columns: 1fr; }
+            .top-bar { flex-direction: column; gap: 10px; text-align: center; }
+            .navbar { flex-direction: column; gap: 18px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 18px; }
+            .hero h1 { font-size: 38px; }
+            .timer-grid { flex-wrap: wrap; }
+            .canvas-container { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="marquee-container">
+            <p class="marquee-text">कंप्यूटर (CPCT, DCA, PGDCA, ACCA) एवं नए बैच प्रवेश प्रारंभ! आज ही अपना रजिस्ट्रेशन ऑनलाइन या केंद्र पर आकर सुनिश्चित करें!</p>
+        </div>
+        <div class="top-contact">
+            <span><i class="fa-solid fa-phone"></i> 9584068800</span>
+            <span><i class="fa-solid fa-clock"></i> 08:00 AM - 07:00 PM</span>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo-area">
+            <div class="logo-circle">A</div>
+            <div>
+                <h1>ASHA <span>INSTITUTE</span></h1>
+                <p>Khajuraho (खजुराहो)</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">HOME</a></li>
+            <li><a href="#">COURSES</a></li>
+            <li><a href="#">LOCATION MONITOR</a></li>
+            <li><a href="#">FACULTY</a></li>
+            <li><a href="#">GALLERY</a></li>
+            <li><a href="#">CONTACT</a></li>
+        </ul>
+        <button class="btn-admission"><i class="fa-solid fa-graduation-cap"></i> ADMISSION OPEN 2026</button>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="badge-gov"><i class="fa-solid fa-circle-check"></i> आईएसओ 9001:2015 प्रमाणित संस्था | GOVT REGISTERED</span>
+            <h1>ASHA Computer<br>Education Institute</h1>
+            <h2>अब हर सपना होगा <span>डिजिटल!</span></h2>
+            <p class="hero-desc">"शैक्षिक डिजिटल दुनिया के इस युग में हम देते हैं केवल कंप्यूटर डिग्री ही नहीं, बल्कि संपूर्ण वास्तविक प्रायोगिक ज्ञान खुशहाली से भरे सुनहरे भविष्य के लिए।"</p>
+            
+            <div class="hero-ticks">
+                <span><i class="fa-solid fa-square-check"></i> 100% Practical</span>
+                <span><i class="fa-solid fa-square-check"></i> Govt Approved</span>
+                <span><i class="fa-solid fa-square-check"></i> Weekly Online Test</span>
+            </div>
+
+            <div class="hero-actions">
+                <button class="btn-primary">प्रवेश फॉर्म भरें (APPLY NOW) <i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn-secondary">कोर्सेज देखें (EXPLORE COURSES)</button>
+            </div>
+        </div>
+
+        <div class="hero-flyer-box">
+            <h3 style="font-size: 16px; letter-spacing: 0.5px; margin-bottom: 10px; color: var(--accent-orange);">ASHA MAIN ADMISSION FLYER</h3>
+            <div class="flyer-placeholder">
+                <i class="fa-regular fa-image"></i>
+                <p style="font-size: 14px; line-height: 1.6;">[ Admission Flyer Photo Box ]<br>DCA • PGDCA • Tally • CPCT • ACCA</p>
+            </div>
+            <div class="flyer-footer">
+                <span>100% प्रक्टिकल ट्रेनिंग</span>
+                <span class="status-open">ADMISSION OPEN</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="worldmonitor-section">
+        <div style="margin-bottom: 35px; text-align: center;">
+            <span class="section-tag" style="color: var(--cyber-blue);"><i class="fa-solid fa-satellite"></i> GLOBAL NAVIGATION HUD</span>
+            <h2 class="section-title">Worldmonitor Interactive Location Matrix</h2>
+            <p style="color: var(--text-dim); font-size: 14px;">Live Orbit Engine se Space View se hamare center tak high-speed scaling experience karein.</p>
+        </div>
+
+        <div class="monitor-grid">
+            <div class="canvas-container" id="earthCanvasContainer">
+                <div class="hud-overlay">
+                    <div>[ SYSTEM: ORBITAL STATUS LOGGED ]</div>
+                    <div id="hudCoordinates">LAT: 0.000000 / LON: 0.000000</div>
+                    <div id="hudZoomLevel">SCALE RANGE: GLOBAL ORBIT</div>
+                    <div style="color: var(--cyber-blue);" id="hudStatus">STATUS: SPINNING REGULAR</div>
+                </div>
+                <div class="hud-scanline"></div>
+                <div class="hud-target" id="hudTargetCrosshair"></div>
+            </div>
+
+            <div class="control-panel">
+                <h3 style="font-size: 20px; color: var(--cyber-blue); margin-bottom: 15px;"><i class="fa-solid fa-terminal"></i> Geographic Scale Controls</h3>
+                <p style="font-size: 14px; color: var(--text-dim); line-height: 1.6;">
+                    Niche diye gaye engine trigger button ko dabaayein. System live telemetry use karke deep space cluster se direct **Khajuraho, Madhya Pradesh** ke center coordinates par matrix zoom/scaling play karega.
+                </p>
+
+                <div class="hud-stats-box">
+                    <div style="font-weight: bold; margin-bottom: 5px; color: var(--accent-orange);">TARGET POSITION DETECTED:</div>
+                    <p style="font-size: 13px; color: #fff;" id="addressFieldText">LOCATION: Earth Surface View Mode</p>
+                </div>
+
+                <button class="btn-cyber-trigger" onclick="triggerEarthScaleSystem()"><i class="fa-solid fa-bolt"></i> INITIALIZE HIGH-SPEED ZOOMING SCALING</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="countdown-section">
+        <h3 style="font-size: 20px; letter-spacing: 0.5px;"><i class="fa-solid fa-hourglass-half" style="color: var(--accent-orange);"></i> MAIN SESSION BATCH CLOSING COUNTDOWN</h3>
+        <p style="color: var(--text-dim); font-size: 14px; margin-top: 5px;">आगामी मुख्य सत्र पंजीकरण बंद होने की अपेक्षित तिथि (15 सितंबर 2026) के लिए समय शेष</p>
+        <div class="timer-grid">
+            <div class="time-box"><span id="live-days">00</span><label style="font-size:11px; color: var(--text-dim);">DAYS</label></div>
+            <div class="time-box"><span id="live-hours">00</span><label style="font-size:11px; color: var(--text-dim);">HOURS</label></div>
+            <div class="time-box"><span id="live-mins">00</span><label style="font-size:11px; color: var(--text-dim);">MINS</label></div>
+            <div class="time-box"><span id="live-secs">00</span><label style="font-size:11px; color: var(--text-dim);">SECS</label></div>
+        </div>
+    </section>
+
+    <section class="cpct-info">
+        <div class="cpct-header">
+            <span class="tag-alert">ADMISSION ANNOUNCEMENT 2026</span>
+            <h2 style="font-size: 30px; margin-top: 15px;">सत्र 2026 कंप्यूटर एवं प्रोफेशनल अकाउंटिंग कोर्सेज डायरेक्ट एडमिशन जारी!</h2>
+        </div>
+
+        <div class="cpct-grid">
+            <div class="info-card">
+                <h3><i class="fa-solid fa-calendar-days" style="color: var(--accent-orange);"></i> महत्वपूर्ण विवरण</h3>
+                <div class="date-row"><span>ADMISSION STATUS:</span> <strong style="color: #10b981;">OPEN FOR ALL BATCHES</strong></div>
+                <div class="date-row"><span>CURRENT PHASE DEADLINE:</span> <strong style="color: var(--accent-orange);">15 SEPTEMBER 2026</strong></div>
+                <div class="date-row"><span>CLASSES PATTERN:</span> <strong style="color: #ff9800;">Regular Practical & Theory Drills</strong></div>
+                <div class="note-box">
+                    <strong><i class="fa-solid fa-circle-exclamation"></i> विशेष नोट:</strong>
+                    <p style="font-size: 13px; color: var(--text-dim); margin-top: 5px;">सभी छात्र अपनी सुविधा के अनुसार कोर्सेज का चयन कर डायरेक्ट एडमिशन ले सकते हैं। सीमित सीटें उपलब्ध हैं।</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>ADMISSION GUIDELINES FLYER</h3>
+                <div class="guideline-placeholder">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <p style="font-size: 13px; text-align: center; padding: 0 10px;">[ Official Fee Structure / Guideline Image ]</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fa-solid fa-file-invoice" style="color: var(--accent-orange);"></i> आवश्यक दस्तावेज</h3>
+                <ul class="doc-list" style="margin-top: 20px; line-height: 2;">
+                    <li><i class="fa-solid fa-circle-dot" style="font-size: 10px; color: var(--accent-orange);"></i> 10th Class Marksheet</li>
+                    <li><i class="fa-solid fa-circle-dot" style="font-size: 10px; color: var(--accent-orange);"></i> 12th Class Marksheet / Graduation Proof</li>
+                    <li><i class="fa-solid fa-circle-dot" style="font-size: 10px; color: var(--accent-orange);"></i> Passport Size Photos</li>
+                    <li><i class="fa-solid fa-circle-dot" style="font-size: 10px; color: var(--accent-orange);"></i> Aadhaar Card Copy</li>
+                </ul>
+                <button class="btn-center-visit">आज ही केंद्र पर आएं (VISIT CENTER)</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="batch-banner">
+        <div>
+            <span class="badge-new">NEW BATCH SESSIONS</span>
+            <h2 style="margin-top: 8px; font-size: 24px;">नया स्पेशल बैच प्रारंभ: इसी सप्ताह से लगातार सत्र चालू</h2>
+            <p style="font-size: 14px; opacity: 0.9; margin-top: 4px;"><i class="fa-solid fa-circle-info"></i> अपनी सीट आज ही सुरक्षित करें। प्रवेश सीमित हैं।</p>
+        </div>
+        <button class="btn-book">सीट बुक करें (BOOK SEAT)</button>
+    </div>
+
+    <section class="courses-section">
+        <span class="section-tag">PROFESSIONAL COURSES GRID</span>
+        <h2 class="section-title">करियर ओरिएंटेड मुख्य कोर्सेज</h2>
+        <p class="section-subtitle">नीचे दिए गए किसी भी कोर्स का चयन कर उसका विस्तृत सिलेबस और विवरण देखें:</p>
+
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="duration-tag">3 MONTHS</div>
+                <h3 style="margin-top:15px;">CPCT Special Target Batch</h3>
+                <p style="margin-top: 10px; font-size: 14px; color: var(--text-dim);">Madhya Pradesh Govt technical structural standards alignment program.</p>
+                
+                <div class="syllabus-accordion">
+                    <div class="accordion-header" onclick="toggleSyllabus(this)">
+                        <span>VIEW DETAILED SYLLABUS</span> <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>• Computer Fundamentals & Architecture</p>
+                        <p>• MS Office Suite Core Utilities</p>
+                        <p>• Hindi Mangal Unicode Layout Training</p>
+                        <p>• English Mock Test Series Drills</p>
+                    </div>
+                </div>
+
+                <div class="course-footer">
+                    <span style="font-size: 12px; color: var(--text-dim);">Hindi & English Drills</span>
+                    <a href="#" style="color: var(--accent-orange); text-decoration: none; font-weight: bold; font-size:14px;">Inquire <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="duration-tag">1 YEAR</div>
+                <h3 style="margin-top:15px;">DCA (Diploma in Computer Applications)</h3>
+                <p style="margin-top: 10px; font-size: 14px; color: var(--text-dim);">Professional certified entry layout for management and basic data fields.</p>
+                
+                <div class="syllabus-accordion">
+                    <div class="accordion-header" onclick="toggleSyllabus(this)">
+                        <span>VIEW DETAILED SYLLABUS</span> <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>• Operating Systems (Windows/Linux)</p>
+                        <p>• Advanced MS Word, Excel & PowerPoint</p>
+                        <p>• Database Handling via MS Access</p>
+                        <p>• Internet Protocols & E-Commerce Basics</p>
+                    </div>
+                </div>
+
+                <div class="course-footer">
+                    <span style="font-size: 12px; color: var(--text-dim);">Bilingual Pattern</span>
+                    <a href="#" style="color: var(--accent-orange); text-decoration: none; font-weight: bold; font-size:14px;">Inquire <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="duration-tag">1 YEAR</div>
+                <h3 style="margin-top:15px;">PGDCA (Post Graduate Diploma)</h3>
+                <p style="margin-top: 10px; font-size: 14px; color: var(--text-dim);">High structural development and enterprise standard workflows qualification.</p>
+                
+                <div class="syllabus-accordion">
+                    <div class="accordion-header" onclick="toggleSyllabus(this)">
+                        <span>VIEW DETAILED SYLLABUS</span> <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>• Relational Database Systems (SQL)</p>
+                        <p>• Programming Concepts (C/Python Basics)</p>
+                        <p>• System Analysis & Administrative Logic</p>
+                        <p>• Core Web Technology (HTML/CSS Structural)</p>
+                    </div>
+                </div>
+
+                <div class="course-footer">
+                    <span style="font-size: 12px; color: var(--text-dim);">Post Graduate Level</span>
+                    <a href="#" style="color: var(--accent-orange); text-decoration: none; font-weight: bold; font-size:14px;">Inquire <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="duration-tag">3 YEARS</div>
+                <h3 style="margin-top:15px;">ACCA (Chartered Certified Accountant)</h3>
+                <p style="margin-top: 10px; font-size: 14px; color: var(--text-dim);">High profile strategic international financial standards system monitoring.</p>
+                
+                <div class="syllabus-accordion">
+                    <div class="accordion-header" onclick="toggleSyllabus(this)">
+                        <span>VIEW DETAILED SYLLABUS</span> <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>• Financial Accounting Metrics</p>
+                        <p>• Performance & Audit Risk Management</p>
+                        <p>• Strategic International Business Reporting</p>
+                        <p>• Global Corporate Governance Standards</p>
+                    </div>
+                </div>
+
+                <div class="course-footer">
+                    <span style="font-size: 12px; color: var(--text-dim);">Global Accounting</span>
+                    <a href="#" style="color: var(--accent-orange); text-decoration: none; font-weight: bold; font-size:14px;">Inquire <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="typing-section">
+        <div class="typing-container">
+            <h2 style="font-size: 24px; font-weight: 800;">अपनी computer टाइपिंग स्पीड को अभी आजमाएं!</h2>
+            <div class="typing-stats-row">
+                <div class="stat-item">TIME LEFT: <span id="timer">30s</span></div>
+                <div class="stat-item">SPEED (WPM): <span id="wpm">0</span></div>
+                <div class="stat-item">ACCURACY: <span id="accuracy">100%</span></div>
+                <button class="btn-reset" onclick="resetTyping()"><i class="fa-solid fa-rotate-left"></i> RESET</button>
+            </div>
+            <div class="typing-target">
+                <p style="color: var(--text-dim); line-height: 1.6;">Computer Certification ensures premium eligibility metrics in government technical sectors.</p>
+            </div>
+            <textarea class="typing-textarea" id="typingInput" placeholder="यहाँ ऊपर लिखे वाक्य को देखकर टाइपिंग प्रारंभ करें..." oninput="startTyping()"></textarea>
+        </div>
+    </section>
+
+    <section class="metrics-section">
+        <span class="section-tag">VERIFIED PERFORMANCES</span>
+        <h2 style="text-align: center; font-size: 30px; font-weight: 800;">हमारे उत्कृष्ट छात्र रिकॉर्ड्स (Top Speed Records)</h2>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h4>CPCT English Drill</h4>
+                <div class="metric-score">58 WPM</div>
+                <span class="metric-badge">Verified Top Score</span>
+            </div>
+            <div class="metric-card">
+                <h4>Hindi Unicode Layout</h4>
+                <div class="metric-score">46 WPM</div>
+                <span class="metric-badge">High Core Performance</span>
+            </div>
+            <div class="metric-card">
+                <h4>Tally Entry Accuracy</h4>
+                <div class="metric-score">99.4%</div>
+                <span class="metric-badge">Industry Benchmark</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="faculty-section">
+        <span class="section-tag">EXPERIENCED GUIDANCE</span>
+        <h2 class="section-title">मार्गदर्शक एवं अनुभवी शिक्षक वर्ग</h2>
+        <div class="faculty-grid">
+            <div class="faculty-card">
+                <h3>श्री कपिल खरे (Mr. Kapil Khare)</h3>
+                <p class="role">संस्थापक एवं निर्देशक (FOUNDER & DIRECTOR)</p>
+                <p class="quote">"हमारा एकमात्र उद्देश्य ग्रामीण क्षेत्र एवं खजुराहो के सभी बच्चों को कंप्यूटर शिक्षा में आत्मनिर्भर बनाना है।"</p>
+                <div class="qualifications" style="display:flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <span>B.Com App</span><span>M.Com</span><span>PGDCA</span><span>Tally Certified</span>
+                </div>
+                <div style="font-size: 13px; line-height: 1.8; color: var(--text-dim);">
+                    <p><i class="fa-solid fa-check" style="color: #10b981;"></i> High Court & Samvida Exam Qualified</p>
+                    <p><i class="fa-solid fa-check" style="color: #10b981;"></i> CPCT Top Score Holder Certification</p>
+                </div>
+            </div>
+
+            <div class="faculty-card">
+                <h3>सैबी खान (Saibee Khan)</h3>
+                <p class="role">सह-शिक्षिका (CO-TEACHER)</p>
+                <p class="quote">"बुनियादी कंप्यूटर प्रैक्टिकल क्लासेस और व्यावहारिक कंप्यूटर वर्क को पूर्णता से सिखाया जाता है।"</p>
+                <div class="qualifications" style="display:flex; gap: 8px; margin-bottom: 15px;">
+                    <span>Typing Specialist</span><span>Lab Expert</span>
+                </div>
+                <p style="font-size: 14px; color: var(--text-dim);"><strong>विशेषज्ञता:</strong> Hindi/English Rapid Typing & Lab Management Control Specialist.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <span class="section-tag">COMMON QUERIES</span>
+        <h2 style="text-align: center; font-size: 30px; font-weight: 800; margin-bottom: 40px;">अक्सर पूछे जाने वाले सवाल (FAQ)</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)"><span>क्या यहाँ के सर्टिफिकेट्स सरकारी नौकरियों में मान्य हैं?</span> <i class="fa-solid fa-plus"></i></div>
+                <div class="faq-answer"><p>हाँ, आशा कंप्यूटर संस्थान पूर्णतः गवर्नमेंट रजिस्टर्ड एवं ISO 9001:2015 प्रमाणित संस्था है। यहाँ से प्राप्त DCA, PGDCA और अन्य डिप्लोमा सर्टिफिकेट्स सभी शासकीय और अशासकीय नौकरियों के लिए पूरी तरह मान्य हैं।</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)"><span>CPCT परीक्षा के लिए विशेष क्या तैयारी कराई जाती है?</span> <i class="fa-solid fa-plus"></i></div>
+                <div class="faq-answer"><p>CPCT के लिए हम विशेष कंप्यूटर थ्योरी मॉक टेस्ट और प्रतिदिन हिंदी (रेमिंगटन गेल/मंगल इन्स्क्रिप्ट) एवं इंग्लिश कंप्यूटर टाइपिंग लैब ड्रिल्स करवाते हैं, जिससे छात्र प्रथम प्रयास में ही परीक्षा उत्तीर्ण कर सकें।</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery-section">
+        <div class="gallery-container">
+            <div class="gallery-placeholder">
+                <i class="fa-solid fa-display"></i>
+                <h3>LIVE STUDENT LAB SESSIONS</h3>
+                <p style="font-size: 13px; color: var(--text-dim);">[ Infrastructure Image Placeholder ]</p>
+            </div>
+            <div class="eligibility-box">
+                <h3><i class="fa-solid fa-circle-question" style="color: var(--accent-orange);"></i> प्रवेश परामर्श (Eligibility Tool)</h3>
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>अपनी योग्यता चुनें:</label>
+                    <select><option>12th Pass</option><option>10th Pass</option><option>Graduate</option></select>
+                </div>
+                <button class="btn-check-course">करियर परामर्श प्राप्त करें <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-enquiry">
+        <div class="contact-info-card">
+            <h2>खजुराहो में हमसे संपर्क करें</h2>
+            <div class="info-block" style="margin-top:20px;"><p><strong>पता:</strong> सेवाग्राम कॉलोनी, वार्ड 11, विद्याधर मार्ग, खजुराहो, मध्य प्रदेश।</p></div>
+            <div class="info-block"><p><strong>कॉल करें:</strong> <br><span class="phone-highlight">9584068800</span></p></div>
+            <a href="tel:9584068800" class="btn-call-now"><i class="fa-solid fa-phone"></i> CALL DIRECTLY</a>
+        </div>
+
+        <div class="enquiry-card">
+            <h3><i class="fa-solid fa-pen-to-square" style="color: var(--accent-orange);"></i> ऑनलाइन प्रवेश पंजीकरण फॉर्म</h3>
+            <form style="margin-top: 20px;">
+                <div class="form-group"><label>आपका पूरा नाम *</label><input type="text" required placeholder="जैसे: राहुल खरे"></div>
+                <div class="form-group"><label>मोबाइल नंबर *</label><input type="tel" required placeholder="सक्रिय नंबर"></div>
+                <button type="submit" class="btn-submit">पूछताछ सबमिट करें <i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </section>
+
+    <div class="creator-signature">
+        Designed & Developed by <span>Raz Shukla</span>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <h3 style="color: var(--accent-orange);">ASHA INSTITUTE</h3>
+                <p style="font-size: 13px; color: var(--text-dim); margin-top: 10px;">आशा कंप्यूटर एजुकेशन संस्थान, खजुराहो का अग्रणी तकनीकी शिक्षा केंद्र है।</p>
+            </div>
+            <div>
+                <h4>LAB HOURS</h4>
+                <p style="font-size: 13px; color: var(--text-dim); margin-top: 10px;">Mon - Sat: 08:00 AM - 07:00 PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>© 2026 ASHA Computer Education Institute | All Rights Reserved</p></div>
+    </footer>
+
+    <script>
+        // TARGET DUAL COUNTDOWN SETUP (Target: September 15, 2026)
+        function updateLiveClock() {
+            const targetDate = new Date("September 15, 2026 23:59:59").getTime();
+            const now = new Date().getTime();
+            const timeDifference = targetDate - now;
+
+            if (timeDifference > 0) {
+                const d = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                const h = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+                document.getElementById("live-days").innerText = String(d).padStart(2, '0');
+                document.getElementById("live-hours").innerText = String(h).padStart(2, '0');
+                document.getElementById("live-mins").innerText = String(m).padStart(2, '0');
+                document.getElementById("live-secs").innerText = String(s).padStart(2, '0');
+            } else {
+                document.getElementById("live-days").innerText = "00";
+                document.getElementById("live-hours").innerText = "00";
+                document.getElementById("live-mins").innerText = "00";
+                document.getElementById("live-secs").innerText = "00";
+            }
+        }
+        setInterval(updateLiveClock, 1000);
+        updateLiveClock();
+
+        // RUNNING RIG SPEED TYPING MATRIX
+        let typingTimer;
+        let totalSeconds = 30;
+        let runningSeconds = totalSeconds;
+        let isEngineRunning = false;
+
+        function startTyping() {
+            if (!isEngineRunning) {
+                isEngineRunning = true;
+                typingTimer = setInterval(() => {
+                    if (runningSeconds > 0) {
+                        runningSeconds--;
+                        document.getElementById('timer').innerText = runningSeconds + 's';
+                        
+                        let typedValue = document.getElementById('typingInput').value;
+                        let wordCount = typedValue.trim().split(/\s+/).length;
+                        if(typedValue.length === 0) wordCount = 0;
+                        
+                        let computedWpm = Math.round((wordCount / (totalSeconds - runningSeconds)) * 60);
+                        if(isFinite(computedWpm)) document.getElementById('wpm').innerText = computedWpm;
+                    } else {
+                        clearInterval(typingTimer);
+                        document.getElementById('typingInput').disabled = true;
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTyping() {
+            clearInterval(typingTimer);
+            runningSeconds = totalSeconds;
+            isEngineRunning = false;
+            document.getElementById('timer').innerText = '30s';
+            document.getElementById('wpm').innerText = '0';
+            document.getElementById('typingInput').value = '';
+            document.getElementById('typingInput').disabled = false;
+        }
+
+        // TOGGLE SYLLABUS INTERACTION ENGINE
+        function toggleSyllabus(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            if (content.style.maxHeight && content.style.maxHeight !== "0px") {
+                content.style.maxHeight = "0px";
+                content.style.padding = "0 15px";
+                icon.className = "fa-solid fa-chevron-down";
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                content.style.padding = "15px";
+                icon.className = "fa-solid fa-chevron-up";
+            }
+        }
+
+        // TOGGLE FAQ PANEL INTERACTION ENGINE
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            if (answer.style.maxHeight && answer.style.maxHeight !== "0px") {
+                answer.style.maxHeight = "0px";
+                icon.className = "fa-solid fa-plus";
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + "px";
+                icon.className = "fa-solid fa-minus";
+            }
+        }
+
+        // NEW THREE.JS ENGINE FOR FUTURE 3D PLANET SCALING LOGIC
+        let scene, camera, renderer, globeMesh, particlesMesh;
+        let isScalingTriggered = false;
+        let scalingProgress = 0;
+        const container = document.getElementById('earthCanvasContainer');
+
+        function init3DEarthEngine() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 220;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            // Create Elegant Wireframe Holographic Globe
+            const globeGeo = new THREE.SphereGeometry(60, 30, 30);
+            const globeMat = new THREE.MeshBasicMaterial({
+                color: 0x00f0ff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.2
+            });
+            globeMesh = new THREE.Mesh(globeGeo, globeMat);
+            scene.add(globeMesh);
+
+            // Add Futuristic Orbital Outer Particle Cluster Clouds
+            const particleGeo = new THREE.BufferGeometry();
+            const particleCount = 600;
+            const posArray = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 400;
+            }
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particleMat = new THREE.PointsMaterial({
+                size: 1.5,
+                color: 0xff5722,
+                transparent: true,
+                opacity: 0.6
+            });
+            particlesMesh = new THREE.Points(particleGeo, particleMat);
+            scene.add(particlesMesh);
+
+            // Resize alignment logic
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+
+            animate3DEarth();
+        }
+
+        function animate3DEarth() {
+            requestAnimationFrame(animate3DEarth);
+
+            // Rotation behaviors
+            if (!isScalingTriggered) {
+                globeMesh.rotation.y += 0.003;
+                particlesMesh.rotation.y -= 0.001;
+                
+                // Idle floating telemetry data display simulation
+                document.getElementById('hudCoordinates').innerText = "LAT: " + (Math.random() * 90).toFixed(6) + " / LON: " + (Math.random() * 180).toFixed(6);
+            } else {
+                // High-Speed Zoom Scaling Technique Logic Loop
+                if (scalingProgress < 1) {
+                    scalingProgress += 0.015; // Animation Step Speed
+                    
+                    // Zoom camera in rapidly mimicking worldmonitor telemetry grid scaling
+                    camera.position.z = 220 - (scalingProgress * 175);
+                    globeMesh.rotation.y += 0.04; // Spin faster during hyperspeed matrix drop
+                    globeMesh.scale.set(1 + scalingProgress*2, 1 + scalingProgress*2, 1 + scalingProgress*2);
+                    
+                    document.getElementById('hudZoomLevel').innerText = "SCALE RANGE: ZOOMING IN (" + Math.round(scalingProgress * 100) + "%)";
+                } else {
+                    // Zoom completion finalized terminal status output lock
+                    document.getElementById('hudStatus').innerText = "STATUS: LOCATION ACQUIRED LCK";
+                    document.getElementById('hudStatus').style.color = "#10b981";
+                    document.getElementById('hudCoordinates').innerText = "LAT: 24.8507° N / LON: 79.9224° E";
+                    document.getElementById('hudZoomLevel').innerText = "SCALE RANGE: LOCAL KHAJURAHO HUB";
+                    document.getElementById('addressFieldText').innerText = "LOCATION DETECTED: सेवाग्राम कॉलोनी, विद्याधर मार्ग, खजुराहो, म.प्र.";
+                    document.getElementById('hudTargetCrosshair').style.display = "block";
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        function triggerEarthScaleSystem() {
+            isScalingTriggered = true;
+            scalingProgress = 0;
+            document.getElementById('hudStatus').innerText = "STATUS: INITIALIZING QUANTUM DRAG";
+            document.getElementById('hudStatus').style.color = "#ff5722";
+            document.getElementById('hudTargetCrosshair').style.display = "none";
+        }
+
+        // Initialize Earth on script compile load window execution
+        window.onload = function() {
+            init3DEarthEngine();
+        }
+    </script>
+</body>
+</html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as file:
+    file.write(html_content)
+
+print("File built successfully.")
